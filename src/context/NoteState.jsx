@@ -1,34 +1,131 @@
-import React from "react";
+import React, { useState } from "react";
 import NoteContext from "./NoteContext";
 
 const NoteState = (props) => {
 
-    const notes = [
-        {
-          "_id": "61dd2c902810fbe5cf053f55",
-          "user": "61dc7ab4ef3d82e934a58da1",
-          "title": "Note 2",
-          "description": "Dont wake up early",
-          "tag": "personal",
-          "date": "2022-01-11T07:06:56.700Z",
-          "__v": 0
-        },
-        {
-          "_id": "61debdae69ddfdece48af822",
-          "user": "61dc7ab4ef3d82e934a58da1",
-          "title": "Note 3",
-          "description": "Dont wake up early yay",
-          "tag": "personal",
-          "date": "2022-01-12T11:38:22.446Z",
-          "__v": 0
-        }
-      ]
+  const host = "http://localhost:5000"
+
+  const initialnotes = [];
+
+
+  const [notes, setNotes] = useState(initialnotes)
+
+  // Get all notes
+  const getAllNotes = async (title, description, tag) => {
+    // ToDo: API call
+    const response = await fetch(`${host}/api/notes/fetchAllNotes`, {
+      method: 'GET',
+
+
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFlNjcwMmVmYmY4YzBiYWYwZTFlNGRiIn0sImlhdCI6MTY0MjQ5MTk1MH0.FXjxkpr1y0YQTXzNe8Dg0Ovf8dFFmqejofsmLS1eG2c"
+
+
+      }
+
+    });
+    const json = await response.json();
+    // console.log(json) // parses JSON response into native JavaScript objects
+    setNotes(json)
+
+
+  }
+
+
+
+
+  // Add a Note
+  const AddNote = async (title, description, tag) => {
+    // ToDo: API call
+    const response = await fetch(`${host}/api/notes/addnotes`, {
+      method: 'POST',
+
+
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFlNjcwMmVmYmY4YzBiYWYwZTFlNGRiIn0sImlhdCI6MTY0MjQ5MTk1MH0.FXjxkpr1y0YQTXzNe8Dg0Ovf8dFFmqejofsmLS1eG2c"
+
+
+      },
+
+      body: JSON.stringify({ title, description, tag }) // body data type must match "Content-Type" header
+    });
+    const note = await response.json(); // parses JSON response into native JavaScript objects
+  
+    setNotes(notes.concat(note))
+
+  }
+
+  const DeleteNote = async (id,title,description,tag) => {
+
+    const response = await fetch(`${host}/api/notes/deletenotes/${id}`, {
+      method: 'DELETE',
+
+
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFlNjcwMmVmYmY4YzBiYWYwZTFlNGRiIn0sImlhdCI6MTY0MjQ5MTk1MH0.FXjxkpr1y0YQTXzNe8Dg0Ovf8dFFmqejofsmLS1eG2c"
+
+
+      },
+
+      body: JSON.stringify({ title, description, tag }) // body data type must match "Content-Type" header
+    });
+
+
+    setNotes(notes.filter((note) => { return note._id !== id }))
+    console.log("NOtes Delete successfully",response)
+  }
+
+
+  //EditNote
+
+  const EditNote = async (id, title, description, tag) => {
+    // API CALL
+
+    const response = await fetch(`${host}/api/notes/updatenotes/${id}`, {
+      method: 'PUT',
+
+
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFlNjcwMmVmYmY4YzBiYWYwZTFlNGRiIn0sImlhdCI6MTY0MjQ5MTk1MH0.FXjxkpr1y0YQTXzNe8Dg0Ovf8dFFmqejofsmLS1eG2c"
+
+
+      },
+
+      body: JSON.stringify({ title, description, tag }) // body data type must match "Content-Type" header
+    });
+    const json = await response.json(); // parses JSON response into native JavaScript objects
+    console.log(json)
+
+    //Logic to edit client
+    let newNotes = JSON.parse(JSON.stringify(notes))
+
+    for (let index = 0; index < newNotes.length; index++) {
+      const element = newNotes[index];
+      if(element._id === id){
+        newNotes[index].title = title;
+        newNotes[index].description = description;
+        newNotes[index].tag = tag;
+        break;
+      }
+    
+      
+    }
+    // console.log(newNotes)
+    setNotes(newNotes)
+
+  }
+
+
 
 
 
   return (
-    <NoteContext.Provider value={{notes}}>
-        {props.children}
+    <NoteContext.Provider value={{ notes, setNotes, AddNote, DeleteNote, getAllNotes,EditNote }}>
+      {props.children}
     </NoteContext.Provider>
   );
 };
