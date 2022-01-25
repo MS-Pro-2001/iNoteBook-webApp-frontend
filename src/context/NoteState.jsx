@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import NoteContext from "./NoteContext";
+import { Button, message } from 'antd';
 
 const NoteState = (props) => {
 
@@ -9,6 +10,15 @@ const NoteState = (props) => {
 
 
   const [notes, setNotes] = useState(initialnotes)
+
+  const key = 'updatable';
+
+  const openMessage = () => {
+    message.loading({ content: 'Deleting...', key });
+    setTimeout(() => {
+      message.success({ content: 'Note Deleted Successfully !', key, duration: 2 });
+    }, 1000);
+  };
 
   // Get all notes
   const getAllNotes = async (title, description, tag) => {
@@ -58,6 +68,7 @@ const NoteState = (props) => {
   }
 
   const DeleteNote = async (id,title,description,tag) => {
+    openMessage();
 
     const response = await fetch(`${host}/api/notes/deletenotes/${id}`, {
       method: 'DELETE',

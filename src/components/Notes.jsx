@@ -120,8 +120,8 @@ const Notes = () => {
             </div>
             <h1>Your Notes are listed here...</h1>
 
-            <div className="container">
-                <div className="row">
+            <div className="container" >
+                <div className="row" >
 
 
 

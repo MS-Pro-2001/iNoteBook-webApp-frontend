@@ -5,18 +5,55 @@ import Home from "./components/Home";
 import About from "./components/About";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NoteState from "./context/NoteState";
+import { Spin} from 'antd';
+import { useEffect, useState } from "react";
+
+
+
 
 function App() {
+
+  const [loading, setloading] = useState(true);
+
+
+  useEffect(() => {
+    setTimeout(() => {
+
+      setloading(false)
+      console.log(loading)
+
+      
+    }, 3000);
+
+  
+  }, []);
+
+
+
+
   return (
     <NoteState>
       <Router>
-        <NavBar />
-        <div className="container">
+      
+        {loading?
+        <>
+        <div className="text-center my-5">
+        <Spin tip="Loading..." size="large"/>
+        </div>
+       
+
+        </>
+          :
+          <>
+            <NavBar />
+            <div className="container">
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route exact path="/about" element={<About />} />
           </Routes>
         </div>
+          </>}
+      
       </Router>
     </NoteState>
   );
