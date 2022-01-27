@@ -38,6 +38,11 @@ const NavBar = () => {
                 </Link>
               </li>
             </ul>
+     
+        
+        <Link to="/signup" className="btn btn-danger d-flex mx-2" type="submit">SignUp</Link>
+        <Link to="/login" className="btn btn-primary d-flex" type="submit">Login</Link>
+ 
           </div>
         </div>
       </nav>

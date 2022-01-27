@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import NoteContext from "./NoteContext";
 import { Button, message } from 'antd';
 
+const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFkYzdhYjRlZjNkODJlOTM0YTU4ZGExIn0sImlhdCI6MTY0MTgzOTI4NX0.vkc_i8dWkIWWe9r50sI7DWPb1UEvsvgUlDenO0EbB3I"
 const NoteState = (props) => {
 
   const host = "http://localhost:5000"
@@ -20,8 +21,9 @@ const NoteState = (props) => {
     }, 1000);
   };
 
+
   // Get all notes
-  const getAllNotes = async (title, description, tag) => {
+  const getAllNotes = async () => {
     // ToDo: API call
     const response = await fetch(`${host}/api/notes/fetchAllNotes`, {
       method: 'GET',
@@ -29,14 +31,14 @@ const NoteState = (props) => {
 
       headers: {
         'Content-Type': 'application/json',
-        'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFlNjcwMmVmYmY4YzBiYWYwZTFlNGRiIn0sImlhdCI6MTY0MjQ5MTk1MH0.FXjxkpr1y0YQTXzNe8Dg0Ovf8dFFmqejofsmLS1eG2c"
+        'auth-token': `${authToken}`
 
 
       }
 
     });
     const json = await response.json();
-    // console.log(json) // parses JSON response into native JavaScript objects
+     //console.log(json) // parses JSON response into native JavaScript objects
     setNotes(json)
 
 
@@ -54,7 +56,7 @@ const NoteState = (props) => {
 
       headers: {
         'Content-Type': 'application/json',
-        'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFlNjcwMmVmYmY4YzBiYWYwZTFlNGRiIn0sImlhdCI6MTY0MjQ5MTk1MH0.FXjxkpr1y0YQTXzNe8Dg0Ovf8dFFmqejofsmLS1eG2c"
+        'auth-token': `${authToken}`
 
 
       },
@@ -76,7 +78,7 @@ const NoteState = (props) => {
 
       headers: {
         'Content-Type': 'application/json',
-        'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFlNjcwMmVmYmY4YzBiYWYwZTFlNGRiIn0sImlhdCI6MTY0MjQ5MTk1MH0.FXjxkpr1y0YQTXzNe8Dg0Ovf8dFFmqejofsmLS1eG2c"
+        'auth-token':`${authToken}`
 
 
       },
@@ -101,7 +103,8 @@ const NoteState = (props) => {
 
       headers: {
         'Content-Type': 'application/json',
-        'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFlNjcwMmVmYmY4YzBiYWYwZTFlNGRiIn0sImlhdCI6MTY0MjQ5MTk1MH0.FXjxkpr1y0YQTXzNe8Dg0Ovf8dFFmqejofsmLS1eG2c"
+        'auth-token': `${authToken}`
+        // 'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFlNjcwMmVmYmY4YzBiYWYwZTFlNGRiIn0sImlhdCI6MTY0MjQ5MTk1MH0.FXjxkpr1y0YQTXzNe8Dg0Ovf8dFFmqejofsmLS1eG2c"
 
 
       },
@@ -109,7 +112,7 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag }) // body data type must match "Content-Type" header
     });
     const json = await response.json(); // parses JSON response into native JavaScript objects
-    console.log(json)
+    // console.log(json)
 
     //Logic to edit client
     let newNotes = JSON.parse(JSON.stringify(notes))

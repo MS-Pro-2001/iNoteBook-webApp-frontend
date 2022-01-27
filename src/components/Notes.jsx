@@ -19,8 +19,7 @@ const Notes = () => {
     }, [])
 
 
-
- 
+   
     const [state, setstate] = useState({id:"",etitle: "",edescription:"",etag:""})
 
     const onChange = (e)=>{
@@ -125,7 +124,7 @@ const Notes = () => {
 
 
 
-                    {notes.map((note, key) => {
+                    {notes.map((note) => {
                         return (
 
                             <NoteItem note={note} key={note._id} UpdateNotes={UpdateNotes} />

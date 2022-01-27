@@ -22,6 +22,11 @@ const AddItem = () => {
       e.preventDefault()
       
       AddNote(state.title,state.description,state.tag)
+      document.getElementById('title').value = "";
+      document.getElementById('description').value = "";
+      document.getElementById('tag').value = "";
+      setstate({title: "",description:"",tag:""})
+
       openMessage()
 
     }
@@ -34,13 +39,16 @@ const openMessage = () => {
     message.success({ content: 'Note Added Successfully !', key, duration: 2 });
   }, 1000);
 };
+const UserName = JSON.parse(localStorage.getItem('credentials')).name
+
+
  
 
     return (
         <div className="container">
   
           
-        <h2>Add a Note</h2>
+        <h2>Welcome {UserName}</h2>
       <form className="my-5">
         <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label"  >
@@ -81,10 +89,8 @@ const openMessage = () => {
           />
         </div>
       
-        {/* <button  className="btn btn-primary" onClick={handleClick} >
-          Add 
-        </button> */}
-        <Button onClick={handleClick} type='primary'>ADD</Button>
+     
+        <Button disabled={state.title.length < 5 || state.description.length < 5 || state.tag.length < 5} onClick={handleClick} type='primary'>ADD</Button>
       </form>
       
     </div>
