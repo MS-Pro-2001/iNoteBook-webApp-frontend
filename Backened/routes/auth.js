@@ -10,7 +10,8 @@ const Jwt_Secret = "mridul@123"
 // Route 1: Create a user using : POST at '/api/auth/createUser
 router.post('/createUser',[
 
-     body('name').isLength({min:5}),
+     body('firstname').isLength({min:5}),
+     body('lastname').isLength({min:5}),
      body('email').isEmail(),
      body('password').isLength({min:6})
 
@@ -34,7 +35,8 @@ router.post('/createUser',[
     const salt = await bcrypt.genSalt(10);
     const secPass = await bcrypt.hash(req.body.password,salt)
     user = await User.create({
-        name: req.body.name,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         password:secPass,
         email: req.body.email,
       
@@ -125,10 +127,10 @@ router.post('/loginUser',[
 
 // Route 3: Get a user details using : POST at '/api/auth/GetUserDetails
 
-router.post('/GetUserDetails', fetchUser, async (req,res)=>{
+router.get('/GetUserDetails', fetchUser, async (req,res)=>{
 
   try {
-     userId = req.user.id;
+      userId = req.user.id;
     const user = await User.findById(userId).select("-password")
     res.send(user)
     

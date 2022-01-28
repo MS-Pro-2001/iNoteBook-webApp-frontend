@@ -6,6 +6,11 @@ const NavBar = () => {
 
   let location = useLocation();
 
+  const handleLogout = ()=>{
+
+    localStorage.clear()
+  }
+
 
   return (
     <div>
@@ -39,9 +44,16 @@ const NavBar = () => {
               </li>
             </ul>
      
-        
-        <Link to="/signup" className="btn btn-danger d-flex mx-2" type="submit">SignUp</Link>
-        <Link to="/login" className="btn btn-primary d-flex" type="submit">Login</Link>
+        {localStorage.getItem('token')? 
+        <>
+        <Link to="/login" className="btn btn-primary d-flex" type="submit" onClick={handleLogout} >Logout</Link>
+        </>
+        :
+        <>
+         <Link to="/signup" className="btn btn-danger d-flex mx-2" type="submit">SignUp</Link>
+        <Link to="/login" className="btn btn-primary d-flex" type="submit">Login</Link></>
+        }
+       
  
           </div>
         </div>

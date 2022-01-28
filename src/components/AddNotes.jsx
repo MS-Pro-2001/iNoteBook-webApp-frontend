@@ -39,7 +39,18 @@ const openMessage = () => {
     message.success({ content: 'Note Added Successfully !', key, duration: 2 });
   }, 1000);
 };
-const UserName = JSON.parse(localStorage.getItem('credentials')).name
+
+
+// let UserName;
+// if(localStorage.getItem('credentials')){
+//   console.log("success")
+//    UserName = JSON.parse(localStorage.getItem('credentials')).firstname
+// }
+// else{
+//   console.log("error in fetching details")
+//   UserName = "name"
+  
+// }
 
 
  
@@ -48,7 +59,7 @@ const UserName = JSON.parse(localStorage.getItem('credentials')).name
         <div className="container">
   
           
-        <h2>Welcome {UserName}</h2>
+        <h2>Welcome  !! </h2>
       <form className="my-5">
         <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label"  >

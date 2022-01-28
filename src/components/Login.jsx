@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+  
 let navigate = useNavigate()
 
   const onChange = (e) => {
@@ -31,19 +32,29 @@ let navigate = useNavigate()
     }
 
 
-  
-    const UserDetails = await fetch("http://localhost:5000/api/auth/GetUserDetails", {
-      method: "POST",
+    try {
 
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token":`${json.authToken}`
-      },
-    
-    });
-    const json2 = await UserDetails.json();
-    console.log(json2)
-    localStorage.setItem('credentials',JSON.stringify(json2))
+      const UserDetails = await fetch("http://localhost:5000/api/auth/GetUserDetails", {
+        method: "GET",
+  
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token":`${json.authToken}`
+        },
+      
+      });
+      const json2 = await UserDetails.json();
+      console.log(json2)
+       localStorage.setItem('credentials',JSON.stringify(json2))
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+
+
+  
+   
    
 
 
